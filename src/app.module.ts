@@ -7,18 +7,21 @@ import { ClientModule } from './client/client.module';
 import { AuthService } from './auth/auth.service';
 import { AuthController } from './auth/auth.controller';
 import { User } from './user/user.model';
+import { Client } from './client/client.model';
 
 @Module({
   imports: [
     SequelizeModule.forRoot({
-      dialect: 'postgres', // ou 'mysql' | 'sqlite' | 'mariadb' | 'mssql'
+      dialect: 'mysql', // ou 'mysql' | 'sqlite' | 'mariadb' | 'mssql'
       host: 'localhost',
-      port: 5432,
-      username: 'seu_usuario',
-      password: 'sua_senha',
-      database: 'seu_banco',
-      models: [User], // ← liste todos os models aqui
+      port: 3306,
+      username: 'root',
+      password: '',
+      database: 'nestdb',
+      models: [User, Client], // ← liste todos os models aqui
       // autoSync: true, // cria as tabelas automaticamente (só dev)
+      autoLoadModels: true,
+      synchronize: true,
     }),
     UserModule,
     ClientModule,

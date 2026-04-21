@@ -1,33 +1,40 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
-import { Client } from './client.model';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Put,
+  Delete,
+} from '@nestjs/common';
+import { ClientService } from './client.service';
 
-export class ClientController {}
+@Controller('clients')
+export class ClientController {
+  constructor(private readonly clientService: ClientService) {}
 
-@Injectable()
-export class ClientService {
-  constructor(
-    @InjectModel(Client)
-    private clientModel: typeof Client,
-  ) {}
-
-  create(data: any) {
-    return this.clientModel.create(data);
+  @Post()
+  create(@Body() body: any) {
+    return this.clientService.create(body);
   }
 
+  @Get()
   findAll() {
-    return this.clientModel.findAll();
+    return this.clientService.findAll();
   }
 
-  findOne(id: number) {
-    return this.clientModel.findByPk(id);
+  @Get(':id')
+  findOne(@Param('id') id: number) {
+    return this.clientService.findOne(id);
   }
 
-  update(id: number, data: any) {
-    return this.clientModel.update(data, { where: { id } });
+  @Put(':id')
+  update(@Param('id') id: number, @Body() body: any) {
+    return this.clientService.update(id, body);
   }
 
-  remove(id: number) {
-    return this.clientModel.destroy({ where: { id } });
+  @Delete(':id')
+  remove(@Param('id') id: number) {
+    return this.clientService.remove(id);
   }
 }
