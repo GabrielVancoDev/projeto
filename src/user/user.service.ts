@@ -3,7 +3,6 @@ import { InjectModel } from '@nestjs/sequelize';
 import { User } from './user.model';
 
 @Injectable()
-
 export class UserService {
   constructor(
     @InjectModel(User)
@@ -22,6 +21,12 @@ export class UserService {
     return this.userModel.findByPk(id);
   }
 
+  async findByEmail(email: string) {
+    return this.userModel.findOne({
+      where: { email },
+      attributes: ['id', 'email', 'password'],
+    });
+  }
   update(id: number, data: any) {
     return this.userModel.update(data, { where: { id } });
   }

@@ -8,7 +8,10 @@ import {
   Delete,
 } from '@nestjs/common';
 import { ClientService } from './client.service';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt/jwt.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('clients')
 export class ClientController {
   constructor(private readonly clientService: ClientService) {}
